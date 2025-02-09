@@ -5,7 +5,7 @@
 void main() {
 // firstName and lastName.
   String firstName = 'Ali';
-  String lastName = 'Mohamed';
+  String lastName = ' Mohamed';
   String res = firstName + lastName;
 
   print(res);
