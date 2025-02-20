@@ -27,7 +27,7 @@ subNumbers([double num1 = 0, double num2 = 0]) {
   return result;
 }
 
-mulNumbers([double num1 = 0, double num2 = 0]) {
+mulNumbers([double num1 = 0, double num2 = 1]) {
   double result = num1 * num2;
   return result;
 }
