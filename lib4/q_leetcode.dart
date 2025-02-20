@@ -6,21 +6,20 @@ void main() {
   print('Enter how many numbers you want to store: ');
   int n = int.parse(stdin.readLineSync()!);
 
-  List<int> list = [];
+  List<int> nums = [];
 
   for (int i = 0; i < n; i++) {
     print('Enter number ${i + 1}:');
     int number = int.parse(stdin.readLineSync()!);
-    list.add(number);
+    nums.add(number);
   }
 
-  print("List 1: $list");
+  print("List : $nums");
 
-  // التحقق من التكرارات
   Set<int> seen = {};
   bool hasDuplicate = false;
 
-  for (int num in list) {
+  for (int num in nums) {
     if (seen.contains(num)) {
       hasDuplicate = true;
       break;
@@ -34,3 +33,21 @@ void main() {
     print('false');
   }
 }
+
+
+// bool containsDuplicate(List<int> nums) {
+//   Set<int> seen = {};
+//   for (int num in nums) {
+//     if (seen.contains(num)) {
+//       return true;
+//     }
+//     seen.add(num);
+//   }
+//   return false;
+// }
+
+// void main() {
+//   List<int> nums = [1, 2, 3, 1];
+//   print(containsDuplicate(nums)); // Output: true
+// }
+
