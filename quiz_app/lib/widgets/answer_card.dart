@@ -43,15 +43,17 @@ class AnswerCard extends StatelessWidget {
                 ),
                 child: Row(
                   children: [
-                    Expanded(
-                      child: Text(question, style: AppTextStyle.h2regular18),
-                    ),
-                    const SizedBox(height: 10),
                     isCorrectAnswer
                         ? buildCorrectIcon()
                         : isWrongAnswer
                         ? buildWorngIcon()
                         : SizedBox.shrink(),
+                    const SizedBox(width: 10),
+
+                    Expanded(
+                      child: Text(question, style: AppTextStyle.h2regular18),
+                    ),
+                    const SizedBox(height: 10),
                   ],
                 ),
               )
