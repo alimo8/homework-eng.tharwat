@@ -43,6 +43,8 @@ class AnswerCard extends StatelessWidget {
                 ),
                 child: Row(
                   children: [
+                    Icon(Icons.circle_outlined),
+                    SizedBox(width: 10),
                     isCorrectAnswer
                         ? buildCorrectIcon()
                         : isWrongAnswer
@@ -67,6 +69,8 @@ class AnswerCard extends StatelessWidget {
                 ),
                 child: Row(
                   children: [
+                    Icon(Icons.circle_outlined),
+                    SizedBox(width: 10),
                     Expanded(
                       child: Text(question, style: AppTextStyle.h2regular18),
                     ),

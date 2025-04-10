@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:quiz_app/constants/assets.dart';
 import 'package:quiz_app/style/app_color.dart';
+import 'package:quiz_app/style/app_text_style.dart';
 import 'package:quiz_app/view/questions_view.dart';
 
 class StartView extends StatelessWidget {
@@ -47,13 +48,13 @@ class StartView extends StatelessWidget {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => questionsView(),
+                              builder: (context) => QuestionsView(),
                             ),
                           );
                         },
                         child: const Text(
                           'Start Quiz',
-                          style: TextStyle(height: 2.5, fontSize: 16),
+                          style: AppTextStyle.h4regular20,
                         ),
                         style: TextButton.styleFrom(
                           backgroundColor: AppColors.white,

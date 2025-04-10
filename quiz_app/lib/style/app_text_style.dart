@@ -15,6 +15,13 @@ abstract class AppTextStyle {
     fontWeight: FontWeight.w500,
     color: AppColors.mainViolet,
   );
+  static const h4regular20 = TextStyle(
+    height: 2,
+    fontSize: 20,
+    fontFamily: 'Gilroy',
+    fontWeight: FontWeight.w500,
+    color: AppColors.mainViolet,
+  );
 
   static const h3regular16 = TextStyle(
     fontSize: 16,

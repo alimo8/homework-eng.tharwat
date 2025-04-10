@@ -3,28 +3,42 @@ import 'package:quiz_app/constants/assets.dart';
 import 'package:quiz_app/models/question_model.dart';
 import 'package:quiz_app/style/app_color.dart';
 import 'package:quiz_app/widgets/answer_card.dart';
+import 'package:quiz_app/widgets/custom_bottom.dart';
 
-class questionsView extends StatefulWidget {
-  const questionsView({super.key});
+class QuestionsView extends StatefulWidget {
+  const QuestionsView({super.key});
 
   @override
-  State<questionsView> createState() => _questionsViewState();
+  State<QuestionsView> createState() => _QuestionsViewState();
 }
 
-class _questionsViewState extends State<questionsView> {
-  int? selectAnsewrIndex;
+class _QuestionsViewState extends State<QuestionsView> {
+  int? selectedAnswerIndex;
   int questionIndex = 0;
   int score = 0;
 
+  bool get isLastQuestion => questionIndex == questions.length - 1;
+
   void pickAnswer(int value) {
     setState(() {
-      selectAnsewrIndex = value;
+      selectedAnswerIndex = value;
       final question = questions[questionIndex];
-      bool isLastQuestion = questionIndex == questions.length - 1;
-      if (selectAnsewrIndex == question.correctAnsewrIndex) {
+      if (selectedAnswerIndex == question.correctAnsewrIndex) {
         score++;
       }
     });
+  }
+
+  void goToNext() {
+    if (!isLastQuestion) {
+      setState(() {
+        questionIndex++;
+        selectedAnswerIndex = null;
+      });
+    } else {
+      // لو آخر سؤال، ممكن تروح لصفحة النتيجة هنا
+      print('النتيجة: $score من ${questions.length}');
+    }
   }
 
   @override
@@ -34,12 +48,12 @@ class _questionsViewState extends State<questionsView> {
     return Scaffold(
       body: Stack(
         children: [
-          /// ✅ الخلفية
+          /// الخلفية
           Positioned.fill(
             child: Image.asset(Assets.imagesGRADINET, fit: BoxFit.cover),
           ),
 
-          /// ✅ "Question 1" في الأعلى
+          /// العنوان في الأعلى
           SafeArea(
             child: Padding(
               padding: const EdgeInsets.only(
@@ -47,7 +61,6 @@ class _questionsViewState extends State<questionsView> {
                 left: 16.0,
                 right: 16.0,
               ),
-
               child: Align(
                 alignment: Alignment.topLeft,
                 child: Container(
@@ -65,9 +78,9 @@ class _questionsViewState extends State<questionsView> {
                       borderRadius: BorderRadius.circular(100),
                     ),
                   ),
-                  child: const Text(
-                    'Question 1',
-                    style: TextStyle(
+                  child: Text(
+                    'Question ${questionIndex + 1}',
+                    style: const TextStyle(
                       color: AppColors.white,
                       fontSize: 14,
                       fontFamily: 'Gilroy',
@@ -79,15 +92,15 @@ class _questionsViewState extends State<questionsView> {
             ),
           ),
 
-          /// ✅ النص والزر في منتصف الصفحة
+          /// المحتوى في المنتصف
           Center(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                /// نص السؤال
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 24.0),
-                  child: Text(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24.0),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  /// السؤال
+                  Text(
                     question.question,
                     textAlign: TextAlign.left,
                     style: const TextStyle(
@@ -97,28 +110,42 @@ class _questionsViewState extends State<questionsView> {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                ),
-                SizedBox(height: 15),
-                ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: question.options.length,
-                  itemBuilder: (context, index) {
+                  const SizedBox(height: 15),
+
+                  /// الخيارات - ثابتة بدون Scroll
+                  ...List.generate(question.options.length, (index) {
                     return GestureDetector(
                       onTap:
-                          selectAnsewrIndex == null
+                          selectedAnswerIndex == null
                               ? () => pickAnswer(index)
                               : null,
                       child: AnswerCard(
-                        selecttAnswerIndex: selectAnsewrIndex,
+                        selecttAnswerIndex: selectedAnswerIndex,
                         correctAnswerIndex: question.correctAnsewrIndex,
                         question: question.options[index],
-                        isSelescted: selectAnsewrIndex == index,
+                        isSelescted: selectedAnswerIndex == index,
                         currentIndex: index,
                       ),
                     );
-                  },
-                ),
-              ],
+                  }),
+
+                  const SizedBox(height: 20),
+
+                  /// زرار التالي أو إنهاء
+                  isLastQuestion
+                      ? CustomBottom(
+                        onPressed: () {
+                          // الانتقال إلى نتيجة أو نهاية
+                        },
+                        label: 'Finish',
+                      )
+                      : CustomBottom(
+                        onPressed:
+                            selectedAnswerIndex != null ? goToNext : null,
+                        label: 'Next',
+                      ),
+                ],
+              ),
             ),
           ),
         ],
