@@ -4,6 +4,7 @@ import 'package:quiz_app/models/question_model.dart';
 import 'package:quiz_app/style/app_color.dart';
 import 'package:quiz_app/widgets/answer_card.dart';
 import 'package:quiz_app/widgets/custom_bottom.dart';
+import 'package:quiz_app/widgets/transparent_back_button.dart';
 import 'package:quiz_app/view/result_view.dart';
 
 class QuestionsView extends StatefulWidget {
@@ -14,19 +15,24 @@ class QuestionsView extends StatefulWidget {
 }
 
 class _QuestionsViewState extends State<QuestionsView> {
-  int? selectedAnswerIndex;
   int questionIndex = 0;
-  int score = 0;
+  List<int?> selectedAnswers = List.filled(questions.length, null);
 
   bool get isLastQuestion => questionIndex == questions.length - 1;
 
-  void pickAnswer(int value) {
-    setState(() {
-      selectedAnswerIndex = value;
-      final question = questions[questionIndex];
-      if (selectedAnswerIndex == question.correctAnsewrIndex) {
+  int get totalScore {
+    int score = 0;
+    for (int i = 0; i < questions.length; i++) {
+      if (selectedAnswers[i] == questions[i].correctAnsewrIndex) {
         score++;
       }
+    }
+    return score;
+  }
+
+  void pickAnswer(int value) {
+    setState(() {
+      selectedAnswers[questionIndex] = value;
     });
   }
 
@@ -34,27 +40,29 @@ class _QuestionsViewState extends State<QuestionsView> {
     if (!isLastQuestion) {
       setState(() {
         questionIndex++;
-        selectedAnswerIndex = null;
       });
-    } else {
-      // لو آخر سؤال، ممكن تروح لصفحة النتيجة هنا
-      print('النتيجة: $score من ${questions.length}');
+    }
+  }
+
+  void goToPrevious() {
+    if (questionIndex > 0) {
+      setState(() {
+        questionIndex--;
+      });
     }
   }
 
   @override
   Widget build(BuildContext context) {
     final question = questions[questionIndex];
+    final selectedAnswerIndex = selectedAnswers[questionIndex];
 
     return Scaffold(
       body: Stack(
         children: [
-          /// الخلفية
           Positioned.fill(
             child: Image.asset(Assets.imagesGRADINET, fit: BoxFit.cover),
           ),
-
-          /// العنوان في الأعلى
           SafeArea(
             child: Padding(
               padding: const EdgeInsets.only(
@@ -92,15 +100,12 @@ class _QuestionsViewState extends State<QuestionsView> {
               ),
             ),
           ),
-
-          /// المحتوى في المنتصف
           Center(
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 24.0),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  /// السؤال
                   Text(
                     question.question,
                     textAlign: TextAlign.left,
@@ -112,8 +117,6 @@ class _QuestionsViewState extends State<QuestionsView> {
                     ),
                   ),
                   const SizedBox(height: 15),
-
-                  /// الخيارات - ثابتة بدون Scroll
                   ...List.generate(question.options.length, (index) {
                     return GestureDetector(
                       onTap:
@@ -129,31 +132,48 @@ class _QuestionsViewState extends State<QuestionsView> {
                       ),
                     );
                   }),
-
-                  const SizedBox(height: 20),
-
-                  /// زرار التالي أو إنهاء
-                  isLastQuestion
-                      ? CustomBottom(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder:
-                                  (context) => ResultView(
-                                    score: score,
-                                    totalQuestions: questions.length,
-                                  ),
-                            ),
-                          );
-                        },
-                        label: 'Finish',
-                      )
-                      : CustomBottom(
-                        onPressed:
-                            selectedAnswerIndex != null ? goToNext : null,
-                        label: 'Next',
+                  const SizedBox(height: 70),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Expanded(
+                        child: TransparentBackButton(
+                          onPressed: questionIndex > 0 ? goToPrevious : null,
+                        ),
                       ),
+                      const SizedBox(width: 40),
+                      Expanded(
+                        child:
+                            isLastQuestion
+                                ? CustomBottom(
+                                  onPressed:
+                                      selectedAnswerIndex != null
+                                          ? () {
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder:
+                                                    (context) => ResultView(
+                                                      score: totalScore,
+                                                      totalQuestions:
+                                                          questions.length,
+                                                    ),
+                                              ),
+                                            );
+                                          }
+                                          : null,
+                                  label: 'Finish',
+                                )
+                                : CustomBottom(
+                                  onPressed:
+                                      selectedAnswerIndex != null
+                                          ? goToNext
+                                          : null,
+                                  label: 'Next',
+                                ),
+                      ),
+                    ],
+                  ),
                 ],
               ),
             ),

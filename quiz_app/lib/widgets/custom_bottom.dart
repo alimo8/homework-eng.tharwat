@@ -20,7 +20,7 @@ class CustomBottom extends StatelessWidget {
               onPressed != null
                   ? AppColors.secondaryViolet
                   : AppColors.backGrad,
-          child: Center(child: Text(label, style: AppTextStyle.h1regular24)),
+          child: Center(child: Text(label, style: AppTextStyle.h6regular22)),
         ),
       ),
     );

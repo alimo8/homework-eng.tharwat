@@ -8,6 +8,12 @@ abstract class AppTextStyle {
     fontWeight: FontWeight.w500,
     color: AppColors.mainViolet,
   );
+  static const h6regular22 = TextStyle(
+    fontSize: 22,
+    fontFamily: 'Gilroy',
+    fontWeight: FontWeight.w500,
+    color: AppColors.white,
+  );
 
   static const h2regular18 = TextStyle(
     fontSize: 18,
