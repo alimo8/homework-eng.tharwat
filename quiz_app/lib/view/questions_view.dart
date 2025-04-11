@@ -4,6 +4,7 @@ import 'package:quiz_app/models/question_model.dart';
 import 'package:quiz_app/style/app_color.dart';
 import 'package:quiz_app/widgets/answer_card.dart';
 import 'package:quiz_app/widgets/custom_bottom.dart';
+import 'package:quiz_app/view/result_view.dart';
 
 class QuestionsView extends StatefulWidget {
   const QuestionsView({super.key});
@@ -135,7 +136,16 @@ class _QuestionsViewState extends State<QuestionsView> {
                   isLastQuestion
                       ? CustomBottom(
                         onPressed: () {
-                          // الانتقال إلى نتيجة أو نهاية
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder:
+                                  (context) => ResultView(
+                                    score: score,
+                                    totalQuestions: questions.length,
+                                  ),
+                            ),
+                          );
                         },
                         label: 'Finish',
                       )
