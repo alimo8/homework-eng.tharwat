@@ -14,9 +14,17 @@ class Assets {
   /// assets/images/image_3.svg
   static const String imagesImage3 = "assets/images/image_3.svg";
 
+  /// Assets for imagesImage4
+  /// assets/images/image_4.png
+  static const String imagesImage4 = "assets/images/image_4.png";
+
   /// Assets for imagesImage6
   /// assets/images/image_6.svg
   static const String imagesImage6 = "assets/images/image_6.svg";
+
+  /// Assets for imagesOverlay
+  /// assets/images/overlay.png
+  static const String imagesOverlay = "assets/images/overlay.png";
 
   /// Assets for imagesSplashscreen
   /// assets/images/splashscreen.svg

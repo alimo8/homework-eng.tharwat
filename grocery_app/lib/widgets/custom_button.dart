@@ -56,15 +56,15 @@ class CustomButton extends StatelessWidget {
       borderRadius: BorderRadius.circular(8),
       child: Container(
         margin: const EdgeInsets.symmetric(horizontal: 16),
-        height: 50,
-        width: double.infinity,
+        height: 60,
+        width: MediaQuery.sizeOf(context).width,
         decoration: BoxDecoration(
           color: color,
           border:
               borderColor != null
                   ? Border.all(color: borderColor!, width: 2)
                   : null,
-          borderRadius: BorderRadius.circular(8),
+          borderRadius: BorderRadius.circular(20),
         ),
         child: Center(
           child: Text(

@@ -7,4 +7,4 @@ final class GetTaskInitial extends GetTaskState {}
 
 final class GetTaskLoaded extends GetTaskState {}
 
-final class GetTaskFailuer extends GetTaskState {}
+// final class GetTaskFailuer extends GetTaskState {}
