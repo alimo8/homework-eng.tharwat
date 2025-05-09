@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:newapp/cubit/get_tasks_cubit/cubit/get_task_cubit.dart';
+import 'package:newapp/cubit/get_tasks_cubit/cubit/tasks_cubit.dart';
 import 'package:newapp/view/home_page.dart';
 
 void main() {
@@ -13,19 +13,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => GetTaskCubit(),
-
-      child: Builder(
-        builder:
-            (context) => BlocBuilder<GetTaskCubit, GetTaskState>(
-              builder: (context, state) {
-                return MaterialApp(
-                  debugShowCheckedModeBanner: false,
-                  home: HomePage(),
-                );
-              },
-            ),
-      ),
+      create: (context) => TasksCubit(),
+      child: MaterialApp(debugShowCheckedModeBanner: false, home: HomePage()),
     );
   }
 }
